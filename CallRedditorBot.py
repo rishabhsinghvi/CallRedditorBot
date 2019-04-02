@@ -5,14 +5,14 @@ import praw.exceptions
 def split_submission(title):
     return title.split(" ")
 
-def create_message(username, link):
+def create_message(username, id):
     message = """Hello, {}!
 
 
 Someone just mentioned you in a post title. 
 
 
-Click the link to visit that post: {}""".format(username, link)
+Click the link to visit that post: https://www.reddit.com/{}""".format(username, id)
 
     return message
 
@@ -31,7 +31,7 @@ def proc_submission(reddit, submission):
 
     for word in split_title:
         if word.startswith("/u/") or word.startswith("u/"): # username strings can start with either /u/ or u/
-            message = create_message(word, submission.url)
+            message = create_message(word, submission.id)
             success = send_message(reddit, word, message)
 
             if success == True: #Only reply to submission if user exists
