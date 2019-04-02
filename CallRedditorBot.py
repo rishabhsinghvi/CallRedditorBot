@@ -35,7 +35,10 @@ def proc_submission(reddit, submission):
             success = send_message(reddit, word, message)
 
             if success == True: #Only reply to submission if user exists
-                submission.reply("Called {}.".format(word))
+                try:
+                    submission.reply("Called {}.".format(word))
+                except praw.exceptions.APIException: # Handle APIException if rate limit exceeded
+                    pass
             
 
 def main():
